@@ -16,7 +16,7 @@ abstract class GithubRepositoryDatabase: RoomDatabase() {
     companion object {
         private var DATABASE_INSTANCE: GithubRepositoryDatabase? = null
 
-        fun getGithubRepositoryDatabase(context: Context, scope: CoroutineScope): GithubRepositoryDatabase? {
+        fun getGithubRepositoryDatabase(context: Context): GithubRepositoryDatabase? {
             if(DATABASE_INSTANCE == null) {
                 synchronized(GithubRepositoryDatabase::class) {
 
@@ -25,7 +25,6 @@ abstract class GithubRepositoryDatabase: RoomDatabase() {
                         GithubRepositoryDatabase::class.java,
                         "github_repo_database")
                         .fallbackToDestructiveMigration()
-                        .addCallback(GithubRepositoryDatabaseCallback(scope))
                         .build()
                 }
             }
@@ -37,31 +36,6 @@ abstract class GithubRepositoryDatabase: RoomDatabase() {
             DATABASE_INSTANCE = null
         }
 
-    }
-
-    private class GithubRepositoryDatabaseCallback(val scope: CoroutineScope): RoomDatabase.Callback() {
-
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
-            DATABASE_INSTANCE.let {
-                scope.launch { populateDatabase(it?.getGithubRepositoryDao()) }
-            }
-        }
-
-        suspend fun populateDatabase(dao: IGithubRepositoryDao?) {
-            val sampleGithubRepo = GithubRepository(
-                repoId = 0,
-                author = "Kunal Kalra",
-                repoName = "Trending Repos",
-                avatarURL = "http://github.com/kunalkalra97/avatar",
-                repoURL = "http://github.com/kunalkalra97/trendingRepo",
-                description = "This is a sample repository entry made by Kunal Kalra",
-                stars = 10,
-                forks = 10
-            )
-
-            dao?.insertIntoGithubRepositoryTable(sampleGithubRepo)
-        }
     }
 
 }

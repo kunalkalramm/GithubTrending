@@ -5,47 +5,42 @@ import androidx.lifecycle.LiveData
 import com.example.githubtrending.GithubRepository
 import com.example.githubtrending.GithubRepositoryDatabase
 import com.example.githubtrending.IGithubRepositoryDao
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
-class GithubDatabaseSqlRepository(application: Application, scope: CoroutineScope) {
+class GithubDatabaseSqlRepository(application: Application) {
 
-    private var allRepositories: LiveData<List<GithubRepository>>? = null
     private val githubRepositoryDao: IGithubRepositoryDao?
+        val githubRepositoryDatabase = GithubRepositoryDatabase.getGithubRepositoryDatabase(application)
 
     init {
-        val githubRepositoryDatabase =
-            GithubRepositoryDatabase.getGithubRepositoryDatabase(application, scope)
         githubRepositoryDao = githubRepositoryDatabase?.getGithubRepositoryDao()
     }
 
     fun insertIntoDatabase(githubRepository: GithubRepository): Job {
-        return CoroutineScope(Dispatchers.IO).launch {
+        return GlobalScope.launch(Dispatchers.IO) {
             githubRepositoryDao?.insertIntoGithubRepositoryTable(githubRepository)
         }
     }
 
     fun updateEntryInDatabase(githubRepository: GithubRepository):Job {
-        return CoroutineScope(Dispatchers.IO).launch {
+        return GlobalScope.launch(Dispatchers.IO) {
             githubRepositoryDao?.updateGithubRepositoryTable(githubRepository)
         }
     }
 
     fun deleteEntryFromDatabase(githubRepository: GithubRepository): Job {
-        return CoroutineScope(Dispatchers.IO).launch {
+        return GlobalScope.launch(Dispatchers.IO) {
             githubRepositoryDao?.deleteRepositoryFromGithubRepository(githubRepository)
         }
     }
 
     fun deleteAllEntriesFromDatabase(): Job {
-        return CoroutineScope(Dispatchers.IO).launch {
+        return GlobalScope.launch(Dispatchers.IO) {
             githubRepositoryDao?.deleteAllFromGithubRepository()
         }
     }
 
-    fun getAllRepositories(githubRepository: GithubRepository): LiveData<List<GithubRepository>>? {
+    fun getAllRepositories(): LiveData<List<GithubRepository>>? {
         return githubRepositoryDao?.getAllRepositories()
     }
 }

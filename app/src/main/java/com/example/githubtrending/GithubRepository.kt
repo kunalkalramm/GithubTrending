@@ -8,10 +8,12 @@ import androidx.room.PrimaryKey
 data class GithubRepository(
     @PrimaryKey(autoGenerate = true) val repoId: Int,
 
-    val author: String,
-    val repoName: String,
-    val avatarURL: String,
-    val repoURL: String,
-    val description: String,
-    val stars: Int,
-    val forks: Int)
+    val author: String?,
+    val repoName: String?,
+    val language: String?,
+    val languageColor: String?,
+    val avatarURL: String?,
+    val repoURL: String?,
+    val description: String?,
+    val stars: Int?,
+    val forks: Int?)
