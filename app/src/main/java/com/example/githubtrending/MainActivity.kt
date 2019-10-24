@@ -1,28 +1,31 @@
 package com.example.githubtrending
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.transition.TransitionManager
-import android.view.View
-import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.Placeholder
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var layout: ConstraintLayout
-    private lateinit var placeholder: Placeholder
+    private lateinit var githubTrendingViewModel: GithubTrendingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        layout = findViewById(R.id.layout)
-        placeholder = findViewById(R.id.placeholder)
+        val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
+        val adapter: RepositoryAdapter = RepositoryAdapter()
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+        recyclerView.hasFixedSize()
+
+        githubTrendingViewModel =
+            ViewModelProviders.of(this).get(GithubTrendingViewModel::class.java)
+        githubTrendingViewModel.liveData.observe(this, Observer {
+
+        })
     }
 
-    fun swapView(v: View) {
-        TransitionManager.beginDelayedTransition(layout)
-        placeholder.setContentId(v.id)
-    }
 }

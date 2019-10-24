@@ -1,52 +1,37 @@
 package com.example.githubtrending.repository
 
-import android.app.Application
-import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.githubtrending.ApiCallResult
 import com.example.githubtrending.RoomGithubRepositoryModel
 import com.example.githubtrending.ViewModelRepositoryModel
+import com.example.githubtrending.networkService.FetchRepositoryService
 import com.example.githubtrending.networkService.models.ApiGithubRepositoryModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.IOException
 
-class BaseRepository(application: Application) {
+class BaseRepository(
+    private val githubDatabaseSqlRepository: GithubDatabaseSqlRepository,
+    private val fetchRepositoryService: FetchRepositoryService
+) {
 
-    private val githubDatabaseSqlRepository = GithubDatabaseSqlRepository(application)
-    private val githubDatabaseNetworkRepository = GithubDatabaseNetworkRepository
-    private val baseRepositoryScope = CoroutineScope(Dispatchers.IO)
 
-    private lateinit var apiCallResult: ApiCallResult<List<ApiGithubRepositoryModel>>
-
-    init {
-        baseRepositoryScope.launch {
-            val result = getRepositoriesFromFetchRepoService()
-
-            when (result) {
-                is ApiCallResult.Success-> {
-                    val roomRepositoryList: List<RoomGithubRepositoryModel> = result.data.map {
-                        it.toRoomGithubRepositoryModel()
-                    }.toList()
-                    pushDataToRepository(roomRepositoryList)
+    suspend fun getRepositoriesFromFetchRepoService(): ApiCallResult<List<ApiGithubRepositoryModel>> {
+        return withContext(Dispatchers.IO) {
+            val response = fetchRepositoryService.getRepositoriesAsync()
+            when {
+                response.isSuccessful -> {
+                    response.body()?.map { it.toRoomGithubRepositoryModel() }?.let {
+                        githubDatabaseSqlRepository.insertIntoDatabase(it)
+                    }
+                    ApiCallResult.Success(response.body()!!)
                 }
-
-                is ApiCallResult.Failure -> {
-                    // TODO: Return data from cache and pass to view model
+                else -> {
+                    ApiCallResult.Failure(IOException("Error fetching data from the API"))
                 }
             }
-        }
-    }
 
-    private suspend fun getRepositoriesFromFetchRepoService(): ApiCallResult<List<ApiGithubRepositoryModel>> {
-
-        val fetchRepositoryService = githubDatabaseNetworkRepository.provideFetchRepoService()
-        val response = withContext(Dispatchers.IO) {
-            fetchRepositoryService.getRepositoriesAsync()
         }
-        if (response.isSuccessful) {
-            return ApiCallResult.Success(response.body()!!)
-        }
-        return ApiCallResult.Failure(IOException("Error fetching data from the API"))
     }
 
     private suspend fun getRepositoriesFromDatabase(): LiveData<List<RoomGithubRepositoryModel>>? {
@@ -63,7 +48,7 @@ class BaseRepository(application: Application) {
 
     private fun ApiGithubRepositoryModel.toRoomGithubRepositoryModel(): RoomGithubRepositoryModel {
         return RoomGithubRepositoryModel(
-            author =  this.author,
+            author = this.author,
             repoName = this.name!!,
             language = this.language,
             languageColor = this.languageColor,
@@ -77,7 +62,7 @@ class BaseRepository(application: Application) {
 
     private fun RoomGithubRepositoryModel.toViewModelRepositoryModel(): ViewModelRepositoryModel {
         return ViewModelRepositoryModel(
-            author =  this.author,
+            author = this.author,
             repoName = this.repoName,
             language = this.language,
             languageColor = this.languageColor,
@@ -90,28 +75,7 @@ class BaseRepository(application: Application) {
     }
 
 
-//    suspend fun fetchRepositoryData(): LiveData<List<RoomGithubRepositoryModel>>? {
-//         return scope.async(Dispatchers.IO) {
-//            githubDatabaseSqlRepository.getAllRepositories()
-//        }.await()
-//    }
+    fun fetchRepositoryData() = githubDatabaseSqlRepository.getAllRepositories()
 
-//    fun fetchData(): LiveData<List<RoomGithubRepositoryModel>>? {
-//
-//        val fetchRepositoryService = githubDatabaseNetworkRepository.provideFetchRepoService()
-//        val listOfRepositories: LiveData<List<ApiGithubRepositoryModel>>? = null
-//        try {
-//            scope.launch(Dispatchers.Main) {
-//                val response = async(Dispatchers.IO) { fetchRepositoryService.getRepositoriesAsync() }.await()
-//                if(response.isSuccessful) {
-//
-//                }
-//
-//            }
-//        } catch (networkException: NetworkErrorException) {
-//
-//        }
-//
-//    }
 
 }
