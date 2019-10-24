@@ -1,8 +1,9 @@
 package com.example.githubtrending.repository
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
-import com.example.githubtrending.GithubRepository
+import com.example.githubtrending.RoomGithubRepositoryModel
 import com.example.githubtrending.GithubRepositoryDatabase
 import com.example.githubtrending.IGithubRepositoryDao
 import kotlinx.coroutines.*
@@ -10,37 +11,39 @@ import kotlinx.coroutines.*
 class GithubDatabaseSqlRepository(application: Application) {
 
     private val githubRepositoryDao: IGithubRepositoryDao?
-        val githubRepositoryDatabase = GithubRepositoryDatabase.getGithubRepositoryDatabase(application)
+    val githubRepositoryDatabase = GithubRepositoryDatabase.getGithubRepositoryDatabase(application)
 
     init {
         githubRepositoryDao = githubRepositoryDatabase?.getGithubRepositoryDao()
     }
 
-    fun insertIntoDatabase(githubRepository: GithubRepository): Job {
-        return GlobalScope.launch(Dispatchers.IO) {
-            githubRepositoryDao?.insertIntoGithubRepositoryTable(githubRepository)
+    suspend fun insertIntoDatabase(roomGithubRepositories: List<RoomGithubRepositoryModel>) {
+        withContext(Dispatchers.IO) {
+            githubRepositoryDao?.insertIntoGithubRepositoryTable(roomGithubRepositories)
         }
     }
 
-    fun updateEntryInDatabase(githubRepository: GithubRepository):Job {
-        return GlobalScope.launch(Dispatchers.IO) {
-            githubRepositoryDao?.updateGithubRepositoryTable(githubRepository)
+    suspend fun updateEntryInDatabase(roomGithubRepositoryModel: RoomGithubRepositoryModel) {
+        withContext(Dispatchers.IO) {
+            githubRepositoryDao?.updateGithubRepositoryTable(roomGithubRepositoryModel)
         }
     }
 
-    fun deleteEntryFromDatabase(githubRepository: GithubRepository): Job {
-        return GlobalScope.launch(Dispatchers.IO) {
-            githubRepositoryDao?.deleteRepositoryFromGithubRepository(githubRepository)
+    suspend fun deleteEntryFromDatabase(roomGithubRepositoryModel: RoomGithubRepositoryModel) {
+        withContext(Dispatchers.IO) {
+            githubRepositoryDao?.deleteRepositoryFromGithubRepository(roomGithubRepositoryModel)
         }
     }
 
-    fun deleteAllEntriesFromDatabase(): Job {
-        return GlobalScope.launch(Dispatchers.IO) {
+    suspend fun deleteAllEntriesFromDatabase() {
+        withContext(Dispatchers.IO) {
             githubRepositoryDao?.deleteAllFromGithubRepository()
         }
     }
 
-    fun getAllRepositories(): LiveData<List<GithubRepository>>? {
-        return githubRepositoryDao?.getAllRepositories()
+    suspend fun getAllRepositories(): LiveData<List<RoomGithubRepositoryModel>>? {
+        return withContext(Dispatchers.IO) {
+            githubRepositoryDao?.getAllRepositories()
+        }
     }
 }

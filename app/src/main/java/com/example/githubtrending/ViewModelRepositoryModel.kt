@@ -1,13 +1,6 @@
 package com.example.githubtrending
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity(tableName = "Repository_Table")
-
-data class GithubRepository(
-    @PrimaryKey(autoGenerate = true) val repoId: Int,
-
+data class ViewModelRepositoryModel(
     val author: String?,
     val repoName: String?,
     val language: String?,
@@ -16,4 +9,5 @@ data class GithubRepository(
     val repoURL: String?,
     val description: String?,
     val stars: Int?,
-    val forks: Int?)
+    val forks: Int?
+)

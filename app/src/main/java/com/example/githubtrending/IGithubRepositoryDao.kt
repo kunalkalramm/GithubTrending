@@ -7,16 +7,16 @@ import androidx.room.*
 interface IGithubRepositoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertIntoGithubRepositoryTable(githubRepository: GithubRepository)
+    fun insertIntoGithubRepositoryTable(roomGithubRepositoryModel: List<RoomGithubRepositoryModel>)
 
     @Update
-    fun updateGithubRepositoryTable(githubRepository: GithubRepository)
+    fun updateGithubRepositoryTable(roomGithubRepositoryModel: RoomGithubRepositoryModel)
 
     @Delete
-    fun deleteRepositoryFromGithubRepository(githubRepository: GithubRepository)
+    fun deleteRepositoryFromGithubRepository(roomGithubRepositoryModel: RoomGithubRepositoryModel)
 
     @Query("select * from Repository_Table")
-    fun getAllRepositories(): LiveData<List<GithubRepository>>
+    fun getAllRepositories(): LiveData<List<RoomGithubRepositoryModel>>
 
     @Query("delete from Repository_Table")
     fun deleteAllFromGithubRepository()
