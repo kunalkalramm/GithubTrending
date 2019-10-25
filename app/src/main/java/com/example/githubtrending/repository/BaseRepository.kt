@@ -74,7 +74,6 @@ class BaseRepository(
         )
     }
 
-
     fun fetchRepositoryData() = githubDatabaseSqlRepository.getAllRepositories()
 
 

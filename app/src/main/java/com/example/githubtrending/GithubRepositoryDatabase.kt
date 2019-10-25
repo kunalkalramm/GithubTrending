@@ -13,12 +13,12 @@ abstract class GithubRepositoryDatabase: RoomDatabase() {
     companion object {
         private var DATABASE_INSTANCE: GithubRepositoryDatabase? = null
 
-        fun getGithubRepositoryDatabase(context: Context): GithubRepositoryDatabase? {
+        fun getGithubRepositoryDatabase(): GithubRepositoryDatabase? {
             if(DATABASE_INSTANCE == null) {
                 synchronized(GithubRepositoryDatabase::class) {
 
                     DATABASE_INSTANCE = Room.databaseBuilder(
-                        context.applicationContext,
+                        MyApp.getInstance(),
                         GithubRepositoryDatabase::class.java,
                         "github_repo_database")
                         .fallbackToDestructiveMigration()

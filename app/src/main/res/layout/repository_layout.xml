@@ -16,69 +16,84 @@ instead use item decorations for recycklerviews
         android:padding="8dp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/avatar"
+            android:id="@+id/imageAvatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/telescope"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/github_star"
-            tools:src="@drawable/telescope" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/repoName"
+            android:id="@+id/textRepoName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toTopOf="parent"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toEndOf="@+id/imageAvatar"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Repository Name" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/username"
+            android:id="@+id/textUsername"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            app:layout_constraintTop_toBottomOf="@+id/repoName"
-            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintStart_toEndOf="@+id/imageAvatar"
+            app:layout_constraintTop_toBottomOf="@+id/textRepoName"
             tools:text="Username" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/stars_image"
+            android:id="@+id/imageStars"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:scaleType="centerCrop"
+            android:src="@drawable/github_star"
+            app:layout_constraintStart_toEndOf="@id/guidelineVertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/repoName"
-            tools:src="@drawable/github_star" />
+            app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/starsNum"
+            android:id="@+id/textStars"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/stars_image"
-            tools:text="100"
-             />
+            app:layout_constraintStart_toEndOf="@id/imageStars"
+            app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal"
+            tools:text="100" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/forks_image"
+            android:id="@+id/imageForks"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:scaleType="centerCrop"
+            android:src="@drawable/github_fork"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toEndOf="@id/starsNum"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/github_fork" />
+            app:layout_constraintStart_toEndOf="@id/guidelineVertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal" />
 
-        <TextView
-            android:id="@+id/forksNum"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textForks"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/forks_image"
+            app:layout_constraintStart_toEndOf="@id/imageStars"
+            app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal"
             tools:text="10" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

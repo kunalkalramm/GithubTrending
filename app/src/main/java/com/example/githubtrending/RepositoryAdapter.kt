@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RepositoryAdapter: RecyclerView.Adapter<RepositoryAdapter.RepositoryHolder>(){
 
-    var repositories: List<ViewModelRepositoryModel> = arrayListOf()
+    private var repositories: List<ViewModelRepositoryModel> = arrayListOf()
 
     fun setrepositories(repositories: List<ViewModelRepositoryModel>) {
         this.repositories = repositories
@@ -35,10 +35,10 @@ class RepositoryAdapter: RecyclerView.Adapter<RepositoryAdapter.RepositoryHolder
 
 
     class RepositoryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var author: TextView = itemView.findViewById(R.id.username)
-        var repoName: TextView = itemView.findViewById(R.id.repoName)
-        var stars: TextView = itemView.findViewById(R.id.starsNum)
-        var forks: TextView = itemView.findViewById(R.id.forksNum)
+        var author: TextView = itemView.findViewById(R.id.textUsername)
+        var repoName: TextView = itemView.findViewById(R.id.textRepoName)
+        var stars: TextView = itemView.findViewById(R.id.textStars)
+        var forks: TextView = itemView.findViewById(R.id.textForks)
 
     }
 }
