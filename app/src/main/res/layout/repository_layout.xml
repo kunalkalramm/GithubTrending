@@ -7,9 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-<!--
-instead use item decorations for recycklerviews
--->
+    <!--
+    instead use item decorations for recycklerviews
+    -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
