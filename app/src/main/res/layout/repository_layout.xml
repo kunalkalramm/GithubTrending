@@ -17,8 +17,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageAvatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/telescope"
@@ -29,8 +29,11 @@
             android:id="@+id/textRepoName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:padding="2dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toStartOf="@id/imageStars"
             app:layout_constraintStart_toEndOf="@+id/imageAvatar"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Repository Name" />
@@ -50,16 +53,17 @@
             android:layout_height="24dp"
             android:scaleType="centerCrop"
             android:src="@drawable/github_star"
-            app:layout_constraintStart_toEndOf="@id/guidelineVertical"
+            app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal" />
+            app:layout_constraintStart_toEndOf="@id/guidelineVertical" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textStars"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:layout_constraintStart_toEndOf="@id/imageStars"
-            app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal"
+            app:layout_constraintBottom_toBottomOf="@id/imageStars"
+            app:layout_constraintTop_toTopOf="@id/imageStars"
             tools:text="100" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -69,16 +73,55 @@
             android:scaleType="centerCrop"
             android:src="@drawable/github_fork"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toEndOf="@id/guidelineVertical"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guidelineVertical"
             app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/arrow_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_down"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageAvatar" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textRepoLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/arrow_down"
+            tools:text="Open Repository" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            app:layout_constraintEnd_toStartOf="@id/imageLanguageColor"
+            app:layout_constraintTop_toBottomOf="@id/arrow_down"
+            tools:text="Python" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageLanguageColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/textLanguage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textLanguage"
+            tools:src="@drawable/circle" />
+
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textForks"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/imageStars"
-            app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal"
+            app:layout_constraintStart_toEndOf="@id/imageForks"
+            app:layout_constraintTop_toTopOf="@id/imageForks"
+            app:layout_constraintBottom_toBottomOf="@id/imageForks"
             tools:text="10" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -93,7 +136,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintGuide_begin="54dp" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/expandableWidget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="imageLanguageColor,textLanguage,textRepoLink"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

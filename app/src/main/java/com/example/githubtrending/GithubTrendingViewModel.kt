@@ -14,7 +14,6 @@ class GithubTrendingViewModel : ViewModel() {
         GithubDatabaseSqlRepository(GithubRepositoryDatabase.getGithubRepositoryDatabase()!!),
         GithubDatabaseNetworkRepository.provideFetchRepoService()
     )
-
     val repositoriesLiveData =
         Transformations.map(baseRepository.fetchRepositoryData()) { liveData ->
             liveData.map {

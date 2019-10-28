@@ -1,12 +1,15 @@
 package com.example.githubtrending
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
-class RepositoryAdapter: RecyclerView.Adapter<RepositoryAdapter.RepositoryHolder>(){
+class RepositoryAdapter(val context: Context): RecyclerView.Adapter<RepositoryAdapter.RepositoryHolder>() {
 
     private var repositories: List<ViewModelRepositoryModel> = arrayListOf()
 
@@ -31,6 +34,10 @@ class RepositoryAdapter: RecyclerView.Adapter<RepositoryAdapter.RepositoryHolder
         holder.repoName.text = (currentRepository.repoName)
         holder.stars.text = (currentRepository.stars).toString()
         holder.forks.text = (currentRepository.forks).toString()
+
+        Glide.with(context)
+            .load(currentRepository.avatarURL)
+            .into(holder.avatar)
     }
 
 
@@ -39,6 +46,7 @@ class RepositoryAdapter: RecyclerView.Adapter<RepositoryAdapter.RepositoryHolder
         var repoName: TextView = itemView.findViewById(R.id.textRepoName)
         var stars: TextView = itemView.findViewById(R.id.textStars)
         var forks: TextView = itemView.findViewById(R.id.textForks)
-
+        var avatar: ImageView = itemView.findViewById(R.id.imageAvatar)
     }
+
 }
