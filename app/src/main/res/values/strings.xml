@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GithubTrending</string>
+    <string name="tvOpenRepository">Open Repository</string>
 </resources>
