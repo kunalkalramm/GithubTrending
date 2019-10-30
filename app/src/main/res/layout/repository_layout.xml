@@ -121,6 +121,7 @@
                 android:id="@+id/imageLanguageColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:colorHex="@{repository.languageColor}"
                 app:layout_constraintBottom_toBottomOf="@id/textLanguage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/textLanguage"
@@ -154,7 +155,7 @@
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/expandableWidget"
                 android:layout_width="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 app:constraint_referenced_ids="imageLanguageColor,textLanguage,textRepoLink"
                 tools:layout_editor_absoluteX="8dp"

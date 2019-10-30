@@ -30,18 +30,6 @@ class MainActivity : AppCompatActivity() {
         val adapter = RepositoryAdapter(this)
         recyclerView.adapter = adapter
 
-
-
-//        recyclerView.viewTreeObserver.addOnGlobalLayoutListener(object :
-//            ViewTreeObserver.OnGlobalLayoutListener {
-//            override fun onGlobalLayout() {
-//                Log.d("kalrk-test", "View has been loaded")
-//                recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-//            }
-//
-//        })
-
-
         githubTrendingViewModel = ViewModelProviders.of(this).get(GithubTrendingViewModel::class.java)
         githubTrendingViewModel.repositoriesLiveData.observe(this, Observer {
             adapter.setrepositories(it)

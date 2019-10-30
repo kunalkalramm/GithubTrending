@@ -22,7 +22,7 @@ class BaseRepository(
             when {
                 response.isSuccessful -> {
                     response.body()?.map { it.toRoomGithubRepositoryModel() }?.let {
-                        githubDatabaseSqlRepository.insertIntoDatabase(it)
+                        pushDataToRepository(it)
                     }
                     ApiCallResult.Success(response.body()!!)
                 }
@@ -34,11 +34,6 @@ class BaseRepository(
         }
     }
 
-    private suspend fun getRepositoriesFromDatabase(): LiveData<List<RoomGithubRepositoryModel>>? {
-        return withContext(Dispatchers.IO) {
-            githubDatabaseSqlRepository.getAllRepositories()
-        }
-    }
 
     private suspend fun pushDataToRepository(roomRepositoryList: List<RoomGithubRepositoryModel>) {
         githubDatabaseSqlRepository.deleteAllEntriesFromDatabase()
@@ -59,20 +54,7 @@ class BaseRepository(
             avatarURL = this.avatarURL
         )
     }
-
-    private fun RoomGithubRepositoryModel.toViewModelRepositoryModel(): ViewModelRepositoryModel {
-        return ViewModelRepositoryModel(
-            author = this.author,
-            repoName = this.repoName,
-            language = this.language,
-            languageColor = this.languageColor,
-            description = this.description,
-            forks = this.forks,
-            stars = this.stars,
-            repoURL = this.repoURL,
-            avatarURL = this.avatarURL
-        )
-    }
+    
 
     fun fetchRepositoryData() = githubDatabaseSqlRepository.getAllRepositories()
 

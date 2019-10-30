@@ -40,23 +40,7 @@ class RepositoryAdapter(val context: Context) : RecyclerView.Adapter<RepositoryA
 
     override fun onBindViewHolder(holder: RepositoryHolder, position: Int) {
         val currentRepository = repositories[position]
-//        holder.author.text = (currentRepository.author)
-//        holder.repoName.text = (currentRepository.repoName)
-//        holder.stars.text = (currentRepository.stars).toString()
-//        holder.forks.text = (currentRepository.forks).toString()
-//        currentRepository.language?.let {
-//            holder.language.text = currentRepository.language
-//        }
-//        currentRepository.languageColor?.let {
-//            holder.languageColor.background.mutate().colorFilter = BlendModeColorFilter(
-//                Color.parseColor(currentRepository.languageColor),
-//                BlendMode.SRC
-//            )
-//        }
-
-
         holder.repositoryLayoutBinding.repository = currentRepository
-
 //        expandedPosition.let {
 //            if (it == holder.adapterPosition) {
 //                expandConstraints()
@@ -78,7 +62,6 @@ class RepositoryAdapter(val context: Context) : RecyclerView.Adapter<RepositoryA
     }
 
 
-    class RepositoryHolder(val repositoryLayoutBinding: RepositoryLayoutBinding) : RecyclerView.ViewHolder(repositoryLayoutBinding.root) {
-    }
+    class RepositoryHolder(val repositoryLayoutBinding: RepositoryLayoutBinding) : RecyclerView.ViewHolder(repositoryLayoutBinding.root)
 
 }
