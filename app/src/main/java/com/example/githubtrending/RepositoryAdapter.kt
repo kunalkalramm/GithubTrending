@@ -65,6 +65,10 @@ class RepositoryAdapter(private val context: Context) :
 
         holder.repositoryLayoutBinding.arrowDown.setOnClickListener { view ->
             previousExpandedPosition?.let { it ->
+                if(previousExpandedPosition == holder.adapterPosition) {
+                    applyBaseConstraints(holder)
+                    return@setOnClickListener
+                }
                 previousExpandedPosition = holder.adapterPosition
                 notifyItemChanged(it)
             }
