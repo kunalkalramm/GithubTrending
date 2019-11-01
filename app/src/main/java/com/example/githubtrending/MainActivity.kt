@@ -1,8 +1,6 @@
 package com.example.githubtrending
 
 import android.os.Bundle
-import android.util.Log
-import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -32,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         githubTrendingViewModel = ViewModelProviders.of(this).get(GithubTrendingViewModel::class.java)
         githubTrendingViewModel.repositoriesLiveData.observe(this, Observer {
-            adapter.setrepositories(it)
+            adapter.setRepositories(it)
         })
 
     }

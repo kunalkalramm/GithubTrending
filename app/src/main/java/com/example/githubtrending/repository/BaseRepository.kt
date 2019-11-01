@@ -1,9 +1,7 @@
 package com.example.githubtrending.repository
 
-import androidx.lifecycle.LiveData
 import com.example.githubtrending.ApiCallResult
 import com.example.githubtrending.RoomGithubRepositoryModel
-import com.example.githubtrending.ViewModelRepositoryModel
 import com.example.githubtrending.networkService.FetchRepositoryService
 import com.example.githubtrending.networkService.models.ApiGithubRepositoryModel
 import kotlinx.coroutines.Dispatchers
@@ -54,7 +52,8 @@ class BaseRepository(
             avatarURL = this.avatarURL
         )
     }
-    
+
+
 
     fun fetchRepositoryData() = githubDatabaseSqlRepository.getAllRepositories()
 

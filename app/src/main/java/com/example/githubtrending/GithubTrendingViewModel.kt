@@ -1,5 +1,7 @@
 package com.example.githubtrending
 
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +13,9 @@ import kotlinx.coroutines.launch
 class GithubTrendingViewModel : ViewModel() {
 
     companion object {
-        const val DEFAULT_TEXT = "-"
+        const val DEFAULT_TEXT = ""
         const val DEFAULT_NUMBER = 0
         const val DEFAULT_COLOR_HEX = "#0000ff"  //Blue colour
-
     }
 
     private val baseRepository = BaseRepository(
@@ -30,7 +31,9 @@ class GithubTrendingViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            baseRepository.getRepositoriesFromFetchRepoService()
+            if(baseRepository.getRepositoriesFromFetchRepoService() is ApiCallResult.Failure) {
+                Log.d("kalrk-test", "Could not fetch data from API")
+            }
         }
     }
 

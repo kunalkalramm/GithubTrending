@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/repository_layout"
-            android:id="@+id/recyclerViewRepositories"/>
+            android:id="@+id/recyclerViewRepositories" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

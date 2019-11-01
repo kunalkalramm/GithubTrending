@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/constraintRepositoryMain"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:padding="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:adjustViewBounds="true"
+        android:id="@+id/imageAvatar"
+        android:layout_height="@dimen/size_96"
+        android:layout_width="@dimen/size_96"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/telescope" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:ellipsize="end"
+        android:id="@+id/textRepoName"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_16"
+        android:layout_width="wrap_content"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@id/textUsername"
+        app:layout_constraintStart_toEndOf="@id/imageAvatar"
+        app:layout_constraintTop_toTopOf="@id/imageAvatar"
+        tools:text="Repository Name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textUsername"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_16"
+        android:layout_width="0dp"
+        android:padding="2dp"
+        android:text="@{repository.author}"
+        app:layout_constraintBottom_toBottomOf="@id/imageAvatar"
+        app:layout_constraintStart_toEndOf="@id/imageAvatar"
+        app:layout_constraintTop_toTopOf="@id/imageAvatar"
+        tools:text="Username" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textLanguage"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_16"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/imageAvatar"
+        app:layout_constraintStart_toEndOf="@id/imageAvatar"
+        app:layout_constraintTop_toBottomOf="@id/textUsername"
+        tools:text="Python" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:background="@drawable/circle"
+        android:id="@+id/imageLanguageColor"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_8"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/textLanguage"
+        app:layout_constraintStart_toEndOf="@id/textLanguage"
+        app:layout_constraintTop_toTopOf="@id/textLanguage" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/arrow_down"
+        android:layout_height="32dp"
+        android:layout_width="32dp"
+        android:src="@drawable/arrow_down"
+        app:layout_constraintBottom_toBottomOf="@id/imageAvatar"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:clickable="true"
+        android:id="@+id/textRepoLink"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_16"
+        android:layout_width="0dp"
+        android:padding="4dp"
+        android:text="@string/tvOpenRepository"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageStars"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_16"
+        android:layout_width="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/star_yellow_16"
+        app:layout_constraintBottom_toBottomOf="@id/textRepoLink"
+        app:layout_constraintStart_toEndOf="@id/textRepoLink"
+        app:layout_constraintTop_toTopOf="@id/textRepoLink" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textStars"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@{repository.stars.toString()}"
+        app:layout_constraintBottom_toBottomOf="@id/imageStars"
+        app:layout_constraintStart_toEndOf="@id/imageStars"
+        app:layout_constraintTop_toTopOf="@id/imageStars"
+        tools:text="100" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageForks"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_16"
+        android:layout_width="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fork_black_16"
+        app:layout_constraintBottom_toBottomOf="@id/textRepoLink"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toEndOf="@id/textStars"
+        app:layout_constraintTop_toTopOf="@id/textRepoLink" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textForks"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@{repository.forks.toString()}"
+        app:layout_constraintBottom_toBottomOf="@id/imageForks"
+        app:layout_constraintStart_toEndOf="@id/imageForks"
+        app:layout_constraintTop_toTopOf="@id/imageForks"
+        tools:text="10" />
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/expandableWidget"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="textRepoLink,imageStars,textForks,textStars,imageForks"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="imageAvatar"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="104dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
