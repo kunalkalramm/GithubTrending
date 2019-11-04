@@ -12,19 +12,20 @@ import com.example.githubtrending.repository.TopRepository
 import com.example.githubtrending.repository.GithubDatabaseNetworkRepository
 import com.example.githubtrending.repository.GithubDatabaseSqlRepository
 import kotlinx.coroutines.launch
+import org.koin.core.KoinComponent
 
-class GithubTrendingViewModel : ViewModel() {
+class GithubTrendingViewModel(
+    repository: TopRepository
+) : ViewModel(), KoinComponent {
 
     companion object {
         const val DEFAULT_TEXT = ""
         const val DEFAULT_NUMBER = 0
         const val DEFAULT_COLOR_HEX = "#0000ff"  //Blue colour
+
+        val TAG = this::class.java.name
     }
 
-    private val repository = TopRepository(
-        GithubDatabaseSqlRepository(GithubRepositoryDatabase.getGithubRepositoryDatabase()!!),
-        GithubDatabaseNetworkRepository.provideFetchRepoService()
-    )
     val repositoriesLiveData =
         Transformations.map(repository.fetchRepositoryData()) { liveData ->
             liveData.map {
@@ -35,7 +36,7 @@ class GithubTrendingViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             if(repository.getRepositoriesFromFetchRepoService() is ApiCallResult.Failure) {
-                Log.d("kalrk-test", "Could not fetch data from API")
+                Log.d(TAG, "Could not fetch data from the repository")
             }
         }
     }
