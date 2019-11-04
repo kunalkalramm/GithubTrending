@@ -1,8 +1,8 @@
-package com.example.githubtrending.networkService.models
+package com.example.githubtrending.models
 
 import com.squareup.moshi.Json
 
-data class ApiGithubRepositoryModel (
+data class ApiModel (
     @field:Json(name="author") val author: String?,
     @field:Json(name="name") val name: String?,
     @field:Json(name="avatar") val avatarURL: String?,

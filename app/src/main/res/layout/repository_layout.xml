@@ -7,7 +7,7 @@
     <data>
         <variable
             name="repository"
-            type="com.example.githubtrending.ViewModelRepositoryModel"/>
+            type="com.example.githubtrending.models.RepositoryModel"/>
     </data>
 
     <androidx.cardview.widget.CardView

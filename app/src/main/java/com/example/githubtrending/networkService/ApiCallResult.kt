@@ -1,4 +1,4 @@
-package com.example.githubtrending
+package com.example.githubtrending.networkService
 
 import java.lang.Exception
 

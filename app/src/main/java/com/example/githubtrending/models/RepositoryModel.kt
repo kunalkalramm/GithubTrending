@@ -1,6 +1,6 @@
-package com.example.githubtrending
+package com.example.githubtrending.models
 
-data class ViewModelRepositoryModel(
+data class RepositoryModel(
     val author: String?,
     val repoName: String?,
     val language: String?,

@@ -1,11 +1,12 @@
-package com.example.githubtrending
+package com.example.githubtrending.database
 
-import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.githubtrending.BaseApplication
+import com.example.githubtrending.models.RoomModel
 
-@Database(entities = [RoomGithubRepositoryModel::class], version = 1)
+@Database(entities = [RoomModel::class], version = 1)
 abstract class GithubRepositoryDatabase: RoomDatabase() {
 
     abstract fun getGithubRepositoryDao(): IGithubRepositoryDao
@@ -18,7 +19,7 @@ abstract class GithubRepositoryDatabase: RoomDatabase() {
                 synchronized(GithubRepositoryDatabase::class) {
 
                     DATABASE_INSTANCE = Room.databaseBuilder(
-                        MyApp.getInstance(),
+                        BaseApplication.getInstance(),
                         GithubRepositoryDatabase::class.java,
                         "github_repo_database")
                         .fallbackToDestructiveMigration()

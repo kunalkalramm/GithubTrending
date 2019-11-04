@@ -1,22 +1,22 @@
 package com.example.githubtrending.repository
 
-import com.example.githubtrending.ApiCallResult
-import com.example.githubtrending.RoomGithubRepositoryModel
-import com.example.githubtrending.networkService.FetchRepositoryService
-import com.example.githubtrending.networkService.models.ApiGithubRepositoryModel
+import com.example.githubtrending.networkService.ApiCallResult
+import com.example.githubtrending.models.RoomModel
+import com.example.githubtrending.networkService.IFetchRepositoryService
+import com.example.githubtrending.models.ApiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-class BaseRepository(
+class TopRepository(
     private val githubDatabaseSqlRepository: GithubDatabaseSqlRepository,
-    private val fetchRepositoryService: FetchRepositoryService
+    private val IFetchRepositoryService: IFetchRepositoryService
 ) {
 
 
-    suspend fun getRepositoriesFromFetchRepoService(): ApiCallResult<List<ApiGithubRepositoryModel>> {
+    suspend fun getRepositoriesFromFetchRepoService(): ApiCallResult<List<ApiModel>> {
         return withContext(Dispatchers.IO) {
-            val response = fetchRepositoryService.getRepositoriesAsync()
+            val response = IFetchRepositoryService.getRepositoriesAsync()
             when {
                 response.isSuccessful -> {
                     response.body()?.map { it.toRoomGithubRepositoryModel() }?.let {
@@ -33,14 +33,14 @@ class BaseRepository(
     }
 
 
-    private suspend fun pushDataToRepository(roomRepositoryList: List<RoomGithubRepositoryModel>) {
+    private suspend fun pushDataToRepository(roomRepositoryList: List<RoomModel>) {
         githubDatabaseSqlRepository.deleteAllEntriesFromDatabase()
         githubDatabaseSqlRepository.insertIntoDatabase(roomRepositoryList)
     }
 
 
-    private fun ApiGithubRepositoryModel.toRoomGithubRepositoryModel(): RoomGithubRepositoryModel {
-        return RoomGithubRepositoryModel(
+    private fun ApiModel.toRoomGithubRepositoryModel(): RoomModel {
+        return RoomModel(
             author = this.author,
             repoName = this.name!!,
             language = this.language,

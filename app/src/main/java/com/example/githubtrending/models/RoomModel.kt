@@ -1,11 +1,11 @@
-package com.example.githubtrending
+package com.example.githubtrending.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "Repository_Table")
 
-data class RoomGithubRepositoryModel(
+data class RoomModel(
     val author: String?,
     @PrimaryKey val repoName: String,
     val language: String?,

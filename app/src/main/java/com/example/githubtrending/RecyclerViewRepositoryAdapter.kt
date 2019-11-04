@@ -9,12 +9,14 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubtrending.databinding.RepositoryLayoutBinding
+import com.example.githubtrending.models.RepositoryModel
 
-class RepositoryAdapter(private val context: Context) :
-    RecyclerView.Adapter<RepositoryAdapter.RepositoryHolder>() {
+class RecyclerViewRepositoryAdapter(private val context: Context) :
+    RecyclerView.Adapter<RecyclerViewRepositoryAdapter.RepositoryHolder>() {
 
-    private var repositories: List<ViewModelRepositoryModel> = arrayListOf()
+    private var repositories: List<RepositoryModel> = arrayListOf()
     private var previousExpandedPosition: Int? = null
+
     private val expandedConstraintSet: ConstraintSet by lazy {
         ConstraintSet().apply {
             clone(context, R.layout.repository_layout_base)
@@ -28,7 +30,8 @@ class RepositoryAdapter(private val context: Context) :
         }
     }
 
-    fun setRepositories(repositories: List<ViewModelRepositoryModel>) {
+
+    fun setRepositories(repositories: List<RepositoryModel>) {
         this.repositories = repositories
         notifyDataSetChanged()
     }
@@ -65,10 +68,6 @@ class RepositoryAdapter(private val context: Context) :
 
         holder.repositoryLayoutBinding.arrowDown.setOnClickListener { view ->
             previousExpandedPosition?.let { it ->
-                if(previousExpandedPosition == holder.adapterPosition) {
-                    applyBaseConstraints(holder)
-                    return@setOnClickListener
-                }
                 previousExpandedPosition = holder.adapterPosition
                 notifyItemChanged(it)
             }
@@ -92,7 +91,6 @@ class RepositoryAdapter(private val context: Context) :
         }
     }
 
-    class RepositoryHolder(val repositoryLayoutBinding: RepositoryLayoutBinding) :
-        RecyclerView.ViewHolder(repositoryLayoutBinding.root)
+    class RepositoryHolder(val repositoryLayoutBinding: RepositoryLayoutBinding) : RecyclerView.ViewHolder(repositoryLayoutBinding.root)
 
 }

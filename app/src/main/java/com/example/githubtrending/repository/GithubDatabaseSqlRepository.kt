@@ -1,9 +1,9 @@
 package com.example.githubtrending.repository
 
 import androidx.lifecycle.LiveData
-import com.example.githubtrending.GithubRepositoryDatabase
-import com.example.githubtrending.IGithubRepositoryDao
-import com.example.githubtrending.RoomGithubRepositoryModel
+import com.example.githubtrending.database.GithubRepositoryDatabase
+import com.example.githubtrending.database.IGithubRepositoryDao
+import com.example.githubtrending.models.RoomModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -13,21 +13,21 @@ class GithubDatabaseSqlRepository(githubRepositoryDatabase: GithubRepositoryData
         githubRepositoryDatabase.getGithubRepositoryDao()
 
 
-    suspend fun insertIntoDatabase(roomGithubRepositories: List<RoomGithubRepositoryModel>) {
+    suspend fun insertIntoDatabase(rooms: List<RoomModel>) {
         withContext(Dispatchers.IO) {
-            githubRepositoryDao.insertIntoGithubRepositoryTable(roomGithubRepositories)
+            githubRepositoryDao.insertIntoGithubRepositoryTable(rooms)
         }
     }
 
-    suspend fun updateEntryInDatabase(roomGithubRepositoryModel: RoomGithubRepositoryModel) {
+    suspend fun updateEntryInDatabase(roomModel: RoomModel) {
         withContext(Dispatchers.IO) {
-            githubRepositoryDao.updateGithubRepositoryTable(roomGithubRepositoryModel)
+            githubRepositoryDao.updateGithubRepositoryTable(roomModel)
         }
     }
 
-    suspend fun deleteEntryFromDatabase(roomGithubRepositoryModel: RoomGithubRepositoryModel) {
+    suspend fun deleteEntryFromDatabase(roomModel: RoomModel) {
         withContext(Dispatchers.IO) {
-            githubRepositoryDao.deleteRepositoryFromGithubRepository(roomGithubRepositoryModel)
+            githubRepositoryDao.deleteRepositoryFromGithubRepository(roomModel)
         }
     }
 
@@ -37,7 +37,7 @@ class GithubDatabaseSqlRepository(githubRepositoryDatabase: GithubRepositoryData
         }
     }
 
-    fun getAllRepositories(): LiveData<List<RoomGithubRepositoryModel>> {
+    fun getAllRepositories(): LiveData<List<RoomModel>> {
         return githubRepositoryDao.getAllRepositories()
     }
 }

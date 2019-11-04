@@ -1,11 +1,14 @@
 package com.example.githubtrending
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.githubtrending.repository.BaseRepository
+import com.example.githubtrending.database.GithubRepositoryDatabase
+import com.example.githubtrending.models.RepositoryModel
+import com.example.githubtrending.models.RoomModel
+import com.example.githubtrending.networkService.ApiCallResult
+import com.example.githubtrending.repository.TopRepository
 import com.example.githubtrending.repository.GithubDatabaseNetworkRepository
 import com.example.githubtrending.repository.GithubDatabaseSqlRepository
 import kotlinx.coroutines.launch
@@ -18,12 +21,12 @@ class GithubTrendingViewModel : ViewModel() {
         const val DEFAULT_COLOR_HEX = "#0000ff"  //Blue colour
     }
 
-    private val baseRepository = BaseRepository(
+    private val repository = TopRepository(
         GithubDatabaseSqlRepository(GithubRepositoryDatabase.getGithubRepositoryDatabase()!!),
         GithubDatabaseNetworkRepository.provideFetchRepoService()
     )
     val repositoriesLiveData =
-        Transformations.map(baseRepository.fetchRepositoryData()) { liveData ->
+        Transformations.map(repository.fetchRepositoryData()) { liveData ->
             liveData.map {
                 it.toViewModelRepositoryModel()
             }
@@ -31,14 +34,14 @@ class GithubTrendingViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            if(baseRepository.getRepositoriesFromFetchRepoService() is ApiCallResult.Failure) {
+            if(repository.getRepositoriesFromFetchRepoService() is ApiCallResult.Failure) {
                 Log.d("kalrk-test", "Could not fetch data from API")
             }
         }
     }
 
-    private fun RoomGithubRepositoryModel.toViewModelRepositoryModel(): ViewModelRepositoryModel {
-        return ViewModelRepositoryModel(
+    private fun RoomModel.toViewModelRepositoryModel(): RepositoryModel {
+        return RepositoryModel(
             author = this.author ?: DEFAULT_TEXT,
             repoName = this.repoName,
             language = this.language ?: DEFAULT_TEXT,

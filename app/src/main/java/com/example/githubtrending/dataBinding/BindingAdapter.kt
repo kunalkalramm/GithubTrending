@@ -1,4 +1,4 @@
-package com.example.githubtrending
+package com.example.githubtrending.dataBinding
 
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter

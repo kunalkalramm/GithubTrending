@@ -25,8 +25,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.hasFixedSize()
 
-        val adapter = RepositoryAdapter(this)
+        val adapter = RecyclerViewRepositoryAdapter(this)
         recyclerView.adapter = adapter
+
+
+
 
         githubTrendingViewModel = ViewModelProviders.of(this).get(GithubTrendingViewModel::class.java)
         githubTrendingViewModel.repositoriesLiveData.observe(this, Observer {

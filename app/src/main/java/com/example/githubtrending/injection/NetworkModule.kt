@@ -1,19 +1,25 @@
 package com.example.githubtrending.injection
 
 import com.example.githubtrending.AppConstants
-import com.example.githubtrending.networkService.FetchRepositoryService
+import com.example.githubtrending.networkService.IFetchRepositoryService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import dagger.Module
-import dagger.Provides
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import javax.inject.Singleton
 
-@Module
-class NetworkModule {
 
-    @Provides
-    @Singleton
+val networkModule = module {
+    single {
+        NetworkModuleHelper.provideRestAdapter()
+    }
+
+    single {
+        NetworkModuleHelper.provideFetchRepositoryService(get())
+    }
+}
+
+object NetworkModuleHelper {
+
     fun provideRestAdapter(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(AppConstants.BASE_URL)
@@ -22,9 +28,8 @@ class NetworkModule {
             .build()
     }
 
-    @Provides
-    @Singleton
-    fun provideFetchRepositoryService(restAdapter: Retrofit): FetchRepositoryService {
-        return restAdapter.create(FetchRepositoryService::class.java)
+    fun provideFetchRepositoryService(restAdapter: Retrofit): IFetchRepositoryService {
+        return restAdapter.create(IFetchRepositoryService::class.java)
     }
+
 }
