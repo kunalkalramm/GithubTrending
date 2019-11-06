@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubtrending.databinding.ActivityMainBinding
 import com.example.githubtrending.models.RepositoryModel
+import com.example.githubtrending.utils.NetworkHelper
 import kotlinx.android.synthetic.main.activity_main.view.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -24,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var recyclerView: RecyclerView
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
             viewState?.let {
                 handleViewState(it)
             }
-
         })
 
     }
@@ -60,16 +59,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleSuccess(viewState: ViewState.onSuccess<List<RepositoryModel>>) {
-        toggleViewVisibilities(true, false, false)
+        toggleViewVisibilities(
+            recyclerViewVisibility = true,
+            noInternetErrorLayoutVisibility = false,
+            loaderVisibility = false
+        )
         adapter.setRepositories(viewState.data)
     }
 
     private fun handleProgress(viewState: ViewState.inProgress<List<RepositoryModel>>) {
-        toggleViewVisibilities(false, false, true)
+        toggleViewVisibilities(
+            recyclerViewVisibility = false,
+            noInternetErrorLayoutVisibility = false,
+            loaderVisibility = true
+        )
     }
 
     private fun handleError(viewState: ViewState.onNetworkError<List<RepositoryModel>>) {
-        toggleViewVisibilities(false, true, false)
+        toggleViewVisibilities(
+            recyclerViewVisibility = false,
+            noInternetErrorLayoutVisibility = true,
+            loaderVisibility = false
+        )
     }
 
     private fun toggleViewVisibilities(recyclerViewVisibility: Boolean, noInternetErrorLayoutVisibility: Boolean, loaderVisibility: Boolean) {

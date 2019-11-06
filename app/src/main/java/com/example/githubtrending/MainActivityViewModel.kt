@@ -1,17 +1,22 @@
 package com.example.githubtrending
 
+import android.net.Network
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.githubtrending.models.RepositoryModel
 import com.example.githubtrending.models.RoomModel
 import com.example.githubtrending.networkService.ApiCallResult
 import com.example.githubtrending.repository.TopRepository
+import com.example.githubtrending.utils.NetworkHelper
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class MainActivityViewModel(private val repository: TopRepository) : ViewModel(), KoinComponent {
+class MainActivityViewModel(private val repository: TopRepository) : ViewModel(), KoinComponent, NetworkHelper.NetworkListener {
 
     private val _repositoryLiveData: MutableLiveData<ViewState<List<RepositoryModel>>> = MutableLiveData()
+    private val networkHelper: NetworkHelper by inject()
     private var fetchDataJob: Job? = null
 
     val repositoryLiveData: LiveData<ViewState<List<RepositoryModel>>>
@@ -19,6 +24,7 @@ class MainActivityViewModel(private val repository: TopRepository) : ViewModel()
 
 
     init {
+        networkHelper.registerNetworkListener(this)
         loadData()
     }
 
@@ -27,6 +33,17 @@ class MainActivityViewModel(private val repository: TopRepository) : ViewModel()
             return
         }
         launchJob()
+    }
+
+    override fun onAvailability(isAvailable: Boolean, network: Network?) {
+        if(_repositoryLiveData.value is ViewState.onNetworkError && isAvailable) {
+            loadData()
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        networkHelper.deregisterNetworkListener(this)
     }
 
     private fun launchJob() {

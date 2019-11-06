@@ -16,6 +16,7 @@ class BaseApplication : Application() {
 
             modules(listOf(
                 networkModule,
+                apiModule,
                 databaseModule,
                 viewModelModule,
                 repositoryModule,
