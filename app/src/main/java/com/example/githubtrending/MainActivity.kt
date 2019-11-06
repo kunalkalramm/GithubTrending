@@ -1,12 +1,14 @@
 package com.example.githubtrending
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubtrending.databinding.ActivityMainBinding
+import com.example.githubtrending.models.RepositoryModel
 import kotlinx.android.synthetic.main.activity_main.view.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -15,7 +17,7 @@ import org.koin.core.parameter.parametersOf
 
 class MainActivity : AppCompatActivity() {
 
-    private val githubTrendingViewModel: GithubTrendingViewModel by viewModel()
+    private val mainActivityViewModel: MainActivityViewModel by viewModel()
     private val adapter: RecyclerViewRepositoryAdapter by inject {
         parametersOf(this)
     }
@@ -26,16 +28,55 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
+        mainBinding.layoutNoInternetError.viewModel = mainActivityViewModel
         recyclerView = mainBinding.root.recyclerViewRepositories
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.hasFixedSize()
 
         recyclerView.adapter = adapter
 
-        githubTrendingViewModel.repositoriesLiveData.observe(this, Observer {
-            adapter.setRepositories(it)
+        mainActivityViewModel.repositoryLiveData.observe(this, Observer {viewState->
+            viewState?.let {
+                handleViewState(it)
+            }
+
         })
+
+    }
+    private fun handleViewState(viewState: ViewState<List<RepositoryModel>>) {
+        when(viewState) {
+            is ViewState.inProgress -> {
+                handleProgress(viewState)
+            }
+
+            is ViewState.onNetworkError-> {
+                handleError(viewState)
+            }
+
+            is ViewState.onSuccess-> {
+                handleSuccess(viewState)
+            }
+        }
+    }
+
+    private fun handleSuccess(viewState: ViewState.onSuccess<List<RepositoryModel>>) {
+        toggleViewVisibilities(true, false, false)
+        adapter.setRepositories(viewState.data)
+    }
+
+    private fun handleProgress(viewState: ViewState.inProgress<List<RepositoryModel>>) {
+        toggleViewVisibilities(false, false, true)
+    }
+
+    private fun handleError(viewState: ViewState.onNetworkError<List<RepositoryModel>>) {
+        toggleViewVisibilities(false, true, false)
+    }
+
+    private fun toggleViewVisibilities(recyclerViewVisibility: Boolean, noInternetErrorLayoutVisibility: Boolean, loaderVisibility: Boolean) {
+
+        mainBinding.recyclerViewRepositories.visibility = if(recyclerViewVisibility) View.VISIBLE else View.GONE
+        mainBinding.layoutNoInternetError.root.visibility = if(noInternetErrorLayoutVisibility) View.VISIBLE else View.GONE
+        mainBinding.layoutLoading.visibility = if(loaderVisibility) View.VISIBLE else View.GONE
 
     }
 

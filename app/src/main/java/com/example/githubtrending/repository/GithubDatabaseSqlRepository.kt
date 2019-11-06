@@ -1,6 +1,5 @@
 package com.example.githubtrending.repository
 
-import androidx.lifecycle.LiveData
 import com.example.githubtrending.database.GithubRepositoryDatabase
 import com.example.githubtrending.database.IGithubRepositoryDao
 import com.example.githubtrending.models.RoomModel
@@ -37,7 +36,7 @@ class GithubDatabaseSqlRepository(githubRepositoryDatabase: GithubRepositoryData
         }
     }
 
-    fun getAllRepositories(): LiveData<List<RoomModel>> {
+    fun getAllRepositories(): List<RoomModel> {
         return githubRepositoryDao.getAllRepositories()
     }
 }

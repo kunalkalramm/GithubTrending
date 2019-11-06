@@ -1,6 +1,5 @@
 package com.example.githubtrending.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.githubtrending.models.RoomModel
 
@@ -17,7 +16,7 @@ interface IGithubRepositoryDao {
     fun deleteRepositoryFromGithubRepository(roomModel: RoomModel)
 
     @Query("select * from Repository_Table")
-    fun getAllRepositories(): LiveData<List<RoomModel>>
+    fun getAllRepositories(): List<RoomModel>
 
     @Query("delete from Repository_Table")
     fun deleteAllFromGithubRepository()

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.githubtrending.MainActivityViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/imgNoInternet"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/no_internet_connection" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvWentWrong"
+            android:layout_marginTop="@dimen/size_24"
+            android:text="@string/something_went_wrong"
+            android:textColor="@color/color_4a4a4a"
+            app:layout_constraintBottom_toTopOf="@+id/tvAlienBlocking"
+            android:textSize="@dimen/text_size_18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgNoInternet" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAlienBlocking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/btnRetry"
+            android:layout_marginTop="@dimen/size_8"
+            app:layout_constraintVertical_bias="1"
+            android:text="@string/an_alien_is_probably_blocking_your_signal"
+            android:textColor="@color/color_929292"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvWentWrong" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/retry"
+            android:id="@+id/btnRetry"
+            app:layout_constraintTop_toBottomOf="@+id/tvAlienBlocking"
+            android:background="@drawable/list_divider"
+            android:layout_marginStart="@dimen/size_16"
+            android:textColor="@color/color_31b057"
+            android:onClick="@{() -> viewModel.loadData()}"
+            android:layout_marginTop="@dimen/size_8"
+            android:layout_marginEnd="@dimen/size_16"
+            android:layout_marginBottom="@dimen/size_16"
+            android:layout_height="@dimen/size_32" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

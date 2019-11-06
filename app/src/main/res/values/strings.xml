@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">GithubTrending</string>
     <string name="tvOpenRepository">Open Repository</string>
+    <string name="something_went_wrong">Something Went Wrong</string>
+    <string name="an_alien_is_probably_blocking_your_signal">An Alien is Probably Blocking Your Signal</string>
+    <string name="retry">Retry</string>
 </resources>
