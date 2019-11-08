@@ -1,7 +1,16 @@
 package com.example.githubtrending
 
+import android.graphics.Color
+import android.graphics.fonts.FontFamily
+import android.graphics.fonts.FontStyle
 import android.net.Network
-import android.util.Log
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.BackgroundColorSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
 import androidx.lifecycle.*
 import com.example.githubtrending.models.RepositoryModel
 import com.example.githubtrending.models.RoomModel
@@ -49,8 +58,7 @@ class MainActivityViewModel(private val repository: TopRepository) : ViewModel()
     private fun launchJob() {
         fetchDataJob = viewModelScope.launch {
             _repositoryLiveData.postValue(ViewState.inProgress(showSpinner = true))
-            val result = repository.fetchDataFromApiAndDump()
-            when (result) {
+            when (val result = repository.fetchDataFromApiAndDump()) {
                 is ApiCallResult.Failure -> {
                     _repositoryLiveData.postValue(ViewState.onNetworkError(result.exception))
                 }

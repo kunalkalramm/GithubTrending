@@ -17,6 +17,9 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginEnd="@dimen/size_8"
+            android:layout_marginStart="@dimen/size_8"
+            android:layout_marginBottom="@dimen/size_8"
             android:id="@+id/constraintRepositoryMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -169,6 +172,15 @@
                 app:constraint_referenced_ids="imageAvatar"
                 tools:layout_editor_absoluteX="8dp"
                 tools:layout_editor_absoluteY="104dp" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_25282b"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expandableWidget"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
